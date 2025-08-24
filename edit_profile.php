@@ -25,13 +25,7 @@
              {
                  $_POST['location1'] = strip_tags($_POST['location1']);
                  $_POST['location2'] = strip_tags($_POST['location2']);
-
-
-                 if (!get_magic_quotes_gpc())
-                 {
-                     $_POST['email'] = addslashes($_POST['email']);
-                 }
-
+                 $_POST['email'] = addslashes($_POST['email']);                 
 
                  $update = "update users set first_name = '".$_POST['fname']."',
                                               last_name = '".$_POST['lname']."',
@@ -50,7 +44,7 @@
 
                  $result = $theDB->doQuery($update);
 
-                 if (!result)
+                 if (!$result)
                  {
                      print 'Error updating user in DB - '.$theDB->lasterror().' - <a href="user_add.php">try again?</a>';
                  }
@@ -96,7 +90,41 @@
                  echo "<input type=\"text\" name=\"locationTown\" value='".$res[0]['town']."' maxlength=\"100\" size=40>";
                  echo "</td></tr>";
                  echo "<tr><td>County*:</td><td>";
-                 echo "<input type=\"text\" name=\"county\" value='".$res[0]['county']."' maxlength=\"100\" size=40>";
+                 echo "<select name=\"county\">";
+                 echo "<option value='".$res[0]['county']."' selected='selected'>".$res[0]['county']."</option>";
+                 echo "<option value=\"Antrim\">Antrim</option>";
+                 echo "<option value=\"Armagh\">Armagh</option>";
+                 echo "<option value=\"Carlow\">Carlow</option>";
+                 echo "<option value=\"Cavan\">Cavan</option>";
+                 echo "<option value=\"Clare\">Clare</option>";
+                 echo "<option value=\"Cork\">Cork</option>";
+                 echo "<option value=\"Derry\">Derry</option>";
+                 echo "<option value=\"Donegal\">Donegal</option>";
+                 echo "<option value=\"Down\">Down</option>";
+                 echo "<option value=\"Dublin\">Dublin</option>";
+                 echo "<option value=\"Fermanagh\">Fermanagh</option>";
+                 echo "<option value=\"Galway\">Galway</option>";
+                 echo "<option value=\"Kerry\">Kerry</option>";
+                 echo "<option value=\"Kildare\">Kildare</option>";
+                 echo "<option value=\"Kilkenny\">Kilkenny</option>";
+                 echo "<option value=\"Laois\">Laois</option>";
+                 echo "<option value=\"Leitrim\">Leitrim</option>";
+                 echo "<option value=\"Limerick\">Limerick</option>";
+                 echo "<option value=\"Longford\">Longford</option>";
+                 echo "<option value=\"Louth\">Louth</option>";
+                 echo "<option value=\"Mayo\">Mayo</option>";
+                 echo "<option value=\"Meath\">Meath</option>";
+                 echo "<option value=\"Monaghan\">Monaghan</option>";
+                 echo "<option value=\"Offaly\">Offaly</option>";
+                 echo "<option value=\"Roscommon\">Roscommon</option>";
+                 echo "<option value=\"Sligo\">Sligo</option>";
+                 echo "<option value=\"Tipperary\">Tipperary</option>";
+                 echo "<option value=\"Tyrone\">Tyrone</option>";
+                 echo "<option value=\"Waterford\">Waterford</option>";
+                 echo "<option value=\"Westmeath\">Westmeath</option>";
+                 echo "<option value=\"Wexford\">Wexford</option>";
+                 echo "<option value=\"Wicklow\">Wicklow</option>";
+                 echo "</select>";
                  echo "</td></tr>";
                  echo "<tr><td>Postcode:</td><td>";
                  echo "<input type=\"text\" name=\"postcode\" value='".$res[0]['postcode']."' maxlength=\"100\" size=40>";

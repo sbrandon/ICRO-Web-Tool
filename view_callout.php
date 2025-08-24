@@ -38,6 +38,7 @@
      echo "<div class='halfboxheader'><b>Callout Type</b></div><div class='halfbox'>$type</div>";
      echo "<div class='halfboxheader'><b>Time Started</b></div><div class='halfbox'>".$rescue[0]['date']."</div>";
      echo "<div class='halfboxheader'><b>Callout Status</b></div><div class='halfbox'>$status</div>";
+     echo "<div class='halfboxheader'><b>Meet Point</b></div><div class='halfbox'>".$rescue[0]['meetpoint_name']." (".$rescue[0]['meetpoint_loc'].")</div>";
         
      echo "<div id='clear_both' style='clear:both;'></div><br/>";
 
@@ -79,14 +80,31 @@
      {
          print "<table width=100%>";
          
-         for ($i=0; $i<count($log_data); $i++)
-         {
-             print "<tr>";
-             print "<td style='border:1px solid #999999; background:#dddddd;' width=20%>".$log_data[$i]['time']."</td>";
-             print "<td style='border:1px solid #999999; background:#dddddd;' width=80%>".$log_data[$i]['message']."</td>";
-             print "</tr>";
-         }
-          
+             for ($i=0; $i<count($log_data); $i++)
+             {
+                 if (preg_match("/has accepted/",$log_data[$i]['message']) || preg_match("/is on the way/",$log_data[$i]['message']))
+                 {
+                     print "<tr>";
+                     print "<td style='border:1px solid #999999; background:#eeeeee;' width=20%>".$log_data[$i]['time']."</td>";
+                     print "<td style='border:1px solid #999999; background:#eeeeee;color:#00FF11;' width=80%>".$log_data[$i]['message']."</td>";
+                     print "</tr>";
+                 }
+                 else if (preg_match("/is unavailable/",$log_data[$i]['message']))
+                 {
+                     print "<tr>";
+                     print "<td style='border:1px solid #999999; background:#eeeeee;' width=20%>".$log_data[$i]['time']."</td>";
+                     print "<td style='border:1px solid #999999; background:#eeeeee;color:#FF0000;' width=80%>".$log_data[$i]['message']."</td>";
+                     print "</tr>";
+                 }
+                 else
+                 {
+                     print "<tr>";
+                     print "<td style='border:1px solid #999999; background:#eeeeee;' width=20%>".$log_data[$i]['time']."</td>";
+                     print "<td style='border:1px solid #999999; background:#eeeeee;' width=80%>".$log_data[$i]['message']."</td>";
+                     print "</tr>";
+                 }                 
+             }
+         
          print "</table>";
          
      }
@@ -130,11 +148,15 @@
      echo "<div class='fullboxheader'><a href='#' id='optionstg' onclick=\"toggleDiv('options','optionstg');\"/>[-]</a> <b>Incident Options</b></div>";
      echo "<div class='fullbox' id='options'>";
      echo "<ul>";
+
+     echo "<li><a href='rescue_log.php?id=".$_GET['id']."'>View / Update the main rescue log</a></li>";
+
      if ($rescue[0]['status'] == 1)
      {
-         echo "<li><a href='modify_details.php?id=".$_GET['id']."'>Modify main callout details</a></li>";
+         echo "<li><a href='modify_details.php?id=".$_GET['id']."'>Modify Incident Details or Change Meeting Point</a></li>";
+         echo "<li><a href='inform_mp_change.php?id=".$_GET['id']."'>Update Team via SMS about Change of Meeting Point</a></li>";
      }
-     echo "<li><a href='rescue_log.php?id=".$_GET['id']."'>View / Update the main rescue log</a></li>";
+
      echo "<li><a href='cave.php?cave_id=".$rescue[0]['cave_id']."'>Get more information about the Cave</a></li>";
 
      if ($rescue[0]['status'] == 1 && ($theSentry->hasPermission(2) || $theSentry->hasPermission(8)))

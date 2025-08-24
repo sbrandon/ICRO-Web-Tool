@@ -35,7 +35,7 @@ class Validator
     // Validate the input is text only - changed to deal with special characters (damn you database)
     function validateTextOnly($theinput,$description = '')
     {
-        $result = ereg ("^[A-Za-z0-9\()' \.]+$", $theinput );
+        $result = preg_match ("/^[A-Za-z0-9\()' \.]+$/", $theinput );
 
         if ($result)
         {
@@ -51,7 +51,7 @@ class Validator
     // Validate the input is text only, no spaces allowed
     function validateTextOnlyNoSpaces($theinput,$description = '')
     {
-        $result = ereg ("^[A-Za-z0-9]+$", $theinput );
+        $result = preg_match ("/^[A-Za-z0-9]+$/", $theinput );
 
         if ($result)
         {
@@ -67,7 +67,7 @@ class Validator
     // Validate email address
     function validateEmail($themail,$description = '')
     {
-        $result = ereg ("^[^@ ]+@[^@ ]+\.[^@ \.]+$", $themail );
+        $result = preg_match ("/^[^@ ]+@[^@ ]+\.[^@ \.]+$/", $themail );
 
         if ($result)
         {

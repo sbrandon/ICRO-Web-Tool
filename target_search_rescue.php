@@ -11,7 +11,7 @@
      {
          echo "<div class='fullbox'>";
          echo "<center>";
-         echo "<form method=GET action='target_search.php'>";
+         echo "<form method=GET action='target_search_rescue.php'>";
          echo "<input type=hidden name=LAT value=".$_GET['LAT'].">";
          echo "<input type=hidden name=LNG value=".$_GET['LNG'].">";
          echo "<input type=hidden name=RID value=".$_GET['RID'].">";
@@ -84,9 +84,9 @@
              $cave_lat = $cave_data[0]['lat'];
              $cave_lng = $cave_data[0]['lng'];
 
-             $sqlstring = "select DISTINCT u.lat, u.lng, CONCAT(u.first_name,' ',u.last_name) as dsc, u.mobile_phone, u.user_id, ROUND(((ACOS(SIN(".$cave_lat." * PI() / 180) * SIN(u.lat * PI() / 180) + COS(".$cave_lat."* PI() / 180) * COS(u.lat * PI() / 180) * COS((".$cave_lng." - u.lng) * PI() / 180)) * 180 / PI()) * 60 * 1.1515),3) AS distance from users u, user_roles r where u.user_id = r.user_id and u.mobile_phone != '0000' and u.user_id in (select u.user_id from users u, user_roles r, user_status s where u.user_id = r.user_id and u.user_id = s.user_id and s.status_id = 0 and r.role_id = ".$_GET['group'].") $role_sql HAVING distance < ".$_GET['distance']." ORDER BY distance limit " . $_GET['num'];
+             $sqlstring = "select DISTINCT u.lat, u.lng, s.status as status, CONCAT(u.first_name,' ',u.last_name) as dsc, u.mobile_phone, u.user_id, ROUND(((ACOS(SIN(".$cave_lat." * PI() / 180) * SIN(u.lat * PI() / 180) + COS(".$cave_lat."* PI() / 180) * COS(u.lat * PI() / 180) * COS((".$cave_lng." - u.lng) * PI() / 180)) * 180 / PI()) * 60 * 1.1515),3) AS distance from users u, user_roles r, user_status us, status s where u.user_id = r.user_id and  us.status_id = s.status_id AND us.user_id = u.user_id and u.user_id in (select u.user_id from users u, user_roles r, user_status s where u.user_id = r.user_id and u.user_id = s.user_id and s.status_id != 0 and s.rescue_id = ".$_GET['RID']." and r.role_id = ".$_GET['group'].") $role_sql HAVING distance < ".$_GET['distance']." ORDER BY distance limit " . $_GET['num'];
     
-             //echo $sqlstring;
+             ////echo $sqlstring;
  
              $userlist = $theDB->fetchQuery($sqlstring);
 
@@ -108,7 +108,7 @@
                  {
                      echo "<tr>";
                      echo "<td style='border:1px solid #999999' width=30%>".$userlist[$i]['dsc']."</td>"; 
-                     echo "<td style='border:1px solid #999999' width=30%>+".$userlist[$i]['mobile_phone']."</td>"; 
+                     echo "<td style='border:1px solid #999999' width=30%>".$userlist[$i]['status']."</td>"; 
                      echo "<td style='border:1px solid #999999' width=30%>".$userlist[$i]['distance']."</td>"; 
                      echo "<td style='border:1px solid #999999' width=5%><a href='rescue_sms_out.php?rescue_id=".$_GET['RID']."&user_ids[]=".$userlist[$i]['user_id']."'>SMS</a></td>";
                      echo "<td style='border:1px solid #999999' width=5%><a href='change_state.php?rescue_id=".$_GET['RID']."&user_id=".$userlist[$i]['user_id']."'>Manual</a></td>";

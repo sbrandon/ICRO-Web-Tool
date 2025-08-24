@@ -10,7 +10,7 @@
      if ($theSentry->hasPermission(1)) 
      {
          // Display current log 
-         $log_data = $theDB->fetchQuery("select distinct s.time,u.username,s.message from system_log s,users u where s.user_id = u.user_id order by s.log_id DESC");
+         $log_data = $theDB->fetchQuery("select distinct s.time,u.username,s.message from system_log s,users u where s.user_id = u.user_id order by s.log_id DESC limit 500");
    
          if (!$log_data)
          {

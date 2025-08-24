@@ -30,7 +30,7 @@
               }
 
               // delete the entry associated with that name....
-              $res = $theDB->doQuery("delete u,ur,us from users u, user_roles ur, user_status us where ur.user_id = u.user_id and us.user_id = u.user_id and u.user_id = '".$_POST['user_id']."';");
+              $res = $theDB->doQuery("delete u,ur,us from users u, user_roles ur, user_status us where ur.user_id = u.user_id and us.user_id = u.user_id and u.user_id = ".$_POST['user_id'].";");
        
               if (!$res)
               {
@@ -40,8 +40,7 @@
               else
               {
                   $theLogger->log("Deleted user ".$username." and associated data");
-
-                  echo "Information for user <b><u>".$username."</u></b> deleted successfully;";
+                  echo "Information for user <b><u>".$username."</u></b> deleted successfully.";
               }
                 
          }

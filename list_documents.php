@@ -81,6 +81,8 @@
              echo "</form>";
          }
      }
+  
+     echo "You have insufficient permissions to view this list";
  }
  else
  {

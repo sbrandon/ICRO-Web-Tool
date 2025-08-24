@@ -9,7 +9,8 @@
  // If its a non-logged in user, display public text
  if (!$theSentry->login())
  {
-     echo "You need to be logged in to view this page"; 
+     header('Location:login.php');
+     die();
  }
  else
  {
@@ -27,8 +28,8 @@
          
          $comments = mysql_real_escape_string($_POST['details']);
 
-         $insert_sql = "INSERT INTO rescues (cave_id,user_id,date,status,comments,type) VALUES ("
-                        . $_POST['cave_id'] . "," . $_SESSION['user_id'] . ",NOW(), 1,'$comments'," . $_POST['type'] . ");";
+         $insert_sql = "INSERT INTO rescues (cave_id,user_id,date,status,comments,type,meetpoint_name,meetpoint_loc) VALUES ("
+                        . $_POST['cave_id'] . "," . $_SESSION['user_id'] . ",NOW(), 1,'$comments'," . $_POST['type'] . ",'" . $_POST['mp_name'] . "','" . $_POST['mp_loc'] . "');";
 
          if ($theDB->doQuery($insert_sql))
          {
@@ -85,6 +86,19 @@
      }
      else
      {
+       // Quick list of common meeting points to save a google lookup everytime
+       echo "<div class='rmenubox'><b><u>Common Meeting Points</u></b> (for Cut and Paste)<br/><br/>";
+       echo "Doolin Rescue Store, Co Clare (53.022605, -9.369772)<br/>";
+       echo "Pollnagollum Parking, Co. Clare (53.074682, -9.251433)<br/>";
+       echo "Cullaun 5 Parking, Co. Clare (53.054396,-9.215493)<br/>";
+       echo "Fermanagh Rescue Store, Co Fermanagh (54.269566, -7.811667)<br/>";
+       echo "East Cuilcagh Car Park, Co. Fermanagh (54.218933,-7.74333)<br/>";
+       echo "Noones Car Park, Co. Fermanagh (54.382301,-7.855076)<br/>";
+       echo "Marlbank GeoPark Car Park, Co Fermanagh (54.250308, -7.815852)<br/>";
+       echo "Geevagh GAA Club, Co. Leitrim (54.100712, -8.241265)<br/>";
+       echo "Mitchelstown Cave, Co. Cork (52.305855, -8.108901)<br/>";
+       echo "</div>";
+       
        echo "To initiate the callout, I need a few basic details:<br/><br/>";
        echo "<form action='" . $_SERVER['PHP_SELF'] ."' method='post'>";
        echo "Cave Name:<br/>"; 
@@ -117,6 +131,9 @@
        echo "Alert Wardens/PRO Immediately by SMS (straight to callout - no standby)?<br/>";
        echo "<INPUT TYPE='RADIO' NAME='dosms' VALUE='1'> Yes<br/>";
        echo "<INPUT TYPE='RADIO' NAME='dosms' VALUE='0' CHECKED> No";
+       echo "<br/><br/>";
+       echo "Meeting Point Name: <input type='text' name='mp_name' size='50' maxlength='50'><br/>";
+       echo "Meeting Point Location (Lat/Lng or Grid Referance): <input type='text' name='mp_loc' size='20' maxlength='20'>";
        echo "<br/><br/>";
        echo "Incident details (Whatever we have so far):<br/>";
        echo "<textarea cols=80 rows=10 name='details'></textarea><br/><br/>";

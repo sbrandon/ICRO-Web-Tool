@@ -57,6 +57,17 @@
          }
 
           $theLogger->log("Ganerated new maps/coords for all users");
+
+          $res = $theDB->doQuery("update users set lat = '53', lng = '-6' where lat < '50'");
+
+          if ($res)
+          {
+              echo "Set coords to default values for anyone with invalid lat/lng<br/>";
+          }
+          else
+          {
+              echo "Failed to set coords to default values for anyone with invalid lat/lng - DB not updated<br/>";
+          }
      }
  }
  else

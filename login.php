@@ -14,7 +14,8 @@
     } 
     else
     {
-        echo 'You are logged in, '.$_SESSION['username'].' - go to <a href="index.php">the main menu?</a><br/>';
+        header('Location:index.php');
+        die();
     }
  }
 
@@ -40,27 +41,31 @@
             } 
             else
             {
-                echo 'You are logged in, '.$_SESSION['username'].' - go to <a href="index.php">the main menu?</a><br/>';
+                header('Location:index.php');
+                die();
             }
         }
     }
  } 
  else 
  {
+      echo "<div class='alert alert-danger' id='error-message' role='alert'>Invalid username or password.</div>";
       echo '<br/>';
       echo '<form action="' . $_SERVER['PHP_SELF'] .'" method="post">';
       echo '<table align="center" border="1" cellspacing="0" cellpadding="3">';
-      echo '<tr><td>Username:</td><td>';
-      echo '<input type="text" name="uname" maxlength="40">';
+      echo '<tr><td><label for="username" class="form-label">Username</label></td><td>';
+      echo '<input id="username" type="text" class="form-control" name="uname" maxlength="40">';
       echo '</td></tr>';
-      echo '<tr><td>Password:</td><td>';
-      echo '<input type="password" name="passwd" maxlength="50">';
+      echo '<tr><td><label for="password" class="form-label">Password</label></td><td>';
+      echo '<input id="password" type="password" class="form-control" name="passwd" maxlength="50">';
       echo '</td></tr>';
       echo '<tr><td colspan="2" align="right">';
-      echo '<input type="submit" name="submit" value="Login">';
+      echo '<input type="submit" name="submit" value="Login" class="btn btn-primary">';
       echo '</td></tr>';
       echo '</table>';
       echo '</form>';
+      echo '<center>ICRO Member? Need an Account? Contact ICRO and we\'ll sort you out...</center><br/>';
+      echo '<center>If you are interested in donating to ICRO, you\'ll find <a href="donations.php">all the info here</a></center><br/>';
  }
 
  echo '</div></div>';

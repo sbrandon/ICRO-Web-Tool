@@ -3,7 +3,7 @@
 ?>
 
 <div class='newsbox'>
-<div class='newstitle'>Incident Resource List</div>
+<div class='newstitle'>End Rescue</div>
 <div class='newscontent'>
 
 <?php
@@ -24,33 +24,45 @@
                  for ($i=0; $i < count($result); $i++)
                  {
                      // Send an SMS to the user, alerting him rescue is over
-                     $res = $theSMS->send($result[$i]['mobile_phone'],"[ICRO] Rescue operation declared finished, you can now stand down. Your ICRO status has been reset to available");
+                     $res = $theSMS->send($result[$i]['mobile_phone'],"[ICRO] Rescue operation declared finished, you can now stand down. Your ICRO status has been reset to available    ");
 
                      if ($res)
                      {
-                         echo $result[$i]['first_name']." ".$result[$i]['last_name']." was sucessfully told to stand down via SMS<br/>";
+                         echo $result[$i]['first_name']." ".$result[$i]['last_name']." was told to stand down via SMS<br/>";
                      }
                      else
                      {
-                         echo $result[$i]['first_name']." ".$result[$i]['last_name']." was NOT told to stand down via SMS - please inform manually!<br/>";
+                         echo $result[$i]['first_name']." ".$result[$i]['last_name']." was NOT told to stand down via SMS (this feature is disabled) - please inform manually!<br/>";
                      }
                  }
              }
 
              // Unlink all the users
-             if ($theDB->doQuery("update user_status set status_id = 0, rescue_id = 0 where rescue_id = ".$_GET['id']))
+             if ($theDB->doQuery("update user_status set status_id = 0, rescue_id = 0, eta = '0000-00-00 00:00:00' where rescue_id = ".$_GET['id']))
              {
                  echo "All active rescuers unlinked from rescue, put back to available status<br/>";
+             }
+             else 
+             {
+                 echo $theDB->lastError()."<br/>";
              }
              
              if ($theDB->doQuery("update rescues set status = 0 where rescue_id = ".$_GET['id']))
              {
                  echo "Rescue state set to finished<br/>";
              }
+             else 
+             {
+                 echo $theDB->lastError()."<br/>";
+             }
 
              if ($theDB->doQuery("insert into rescue_log set rescue_id = ".$_GET['id'].", time=now(), message='Rescue ended by user ".$_SESSION['username']."'"))
              {
                  echo "Rescue finish time recorded into log<br/>";
+             }
+             else 
+             {
+                 echo $theDB->lastError()."<br/>";
              }
 
              echo "<br/>Return to <a href='index.php'>Main Page?</a><br/>";

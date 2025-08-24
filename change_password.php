@@ -42,7 +42,7 @@
 
                              $result = $theDB->doQuery($update);
 
-                             if (!result)
+                             if (!$result)
                              {
                                  $theLogger->log("Password changed failed - DB Error - ".$theDB->lasterror());
                                  print 'Error updating password in DB - '.$theDB->lasterror().' - <a href="change_password.php">try again?</a>';

@@ -33,8 +33,10 @@
      if (isset($_POST['details']))
      {
          $comments = mysql_real_escape_string($_POST['details']);
+         $mp_name  = mysql_real_escape_string($_POST['mp_name']);
+         $mp_loc   = mysql_real_escape_string($_POST['mp_loc']);
 
-         if ($theDB->doQuery("UPDATE rescues set comments = '".$comments."' where rescue_id = ".$_POST['id']))
+         if ($theDB->doQuery("UPDATE rescues set comments = '$comments', meetpoint_name = '$mp_name', meetpoint_loc = '$mp_loc' where rescue_id = ".$_POST['id']))
          {
              $theDB->doQuery("INSERT into rescue_log set rescue_id = ".$_POST['id'].",time=now(),message='Incident details updated'");
            
@@ -51,7 +53,10 @@
      {
          echo "<form target='modify_details.php' method=post>";
 
-         echo "Current details:<br/>";
+         echo "Meeting Point Name: <input type='text' name='mp_name' size='50' maxlength='50' value='".$rescue[0]['meetpoint_name']."'><br/>";
+         echo "Meeting Point Location (Lat/Lng or Grid Referance): <input type='text' name='mp_loc' size='20' maxlength='20' value='".$rescue[0]['meetpoint_loc']."'>";
+         echo "<br/><br/>";
+         echo "Current Incident Details:<br/>";
          echo "<input type='button' value='Bold' onclick='formatText(\"ta1\",\"b\");'/>";
          echo "<input type='button' value='Underline' onclick='formatText(\"ta1\",\"u\");'/>";
          echo "<input type='button' value='Italic' onclick='formatText(\"ta1\",\"i\");'/>";

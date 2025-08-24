@@ -17,10 +17,7 @@ if (isset($_POST['submit']))
   }
   else
   {
-      if (!get_magic_quotes_gpc()) 
-      {
-          $_POST['uname'] = addslashes($_POST['uname']);
-      }
+      $_POST['uname'] = addslashes($_POST['uname']);
 
       $name_check = $theDB->fetchQuery("SELECT username FROM users WHERE username = '".$_POST['uname']."'");
 
@@ -51,22 +48,17 @@ if (isset($_POST['submit']))
                       $_POST['uname'] = strip_tags($_POST['uname']);
                       $_POST['passwd'] = strip_tags($_POST['passwd']);
                       $_POST['location'] = strip_tags($_POST['location']);
-
                       $_POST['passwd'] = sha1($_POST['passwd']);
-
-                      if (!get_magic_quotes_gpc()) 
-                      {
-                          $_POST['passwd'] = addslashes($_POST['passwd']);
-                          $_POST['email'] = addslashes($_POST['email']);
-                          $_POST['location'] = addslashes($_POST['location']);
-                      }
+                      $_POST['passwd'] = addslashes($_POST['passwd']);
+                      $_POST['email'] = addslashes($_POST['email']);
+                      $_POST['location'] = addslashes($_POST['location']);
 
                       $regdate = date('Y-m-d H:i:s');
 
                       $insert = "INSERT INTO users (
                                        username,
                                        first_name,
-				       last_name, 
+				                               last_name, 
                                        password, 
                                        active,
                                        lat,
@@ -74,19 +66,19 @@ if (isset($_POST['submit']))
                                        regdate, 
                                        email, 
                                        address_line1,
-				       address_line2,
-				       town,
-				       county,
-				       postcode, 
+				                               address_line2,
+				                               town,
+				                               county,
+				                               postcode, 
                                        mobile_phone,
                                        home_phone,
                                        work_phone,
                                        other_phone,
-				       ffs_num) 
+				                               ffs_num) 
                                        VALUES (
                                        '".$_POST['uname']."', 
                                        '".$_POST['fname']."',
-				       '".$_POST['lname']."', 
+				                               '".$_POST['lname']."', 
                                        '".$_POST['passwd']."', 
                                        1,
                                        53.1265,
@@ -95,19 +87,19 @@ if (isset($_POST['submit']))
                                        '".$_POST['email']."', 
                                        '".$_POST['location1']."', 
                                        '".$_POST['location2']."',
-				       '".$_POST['locationTown']."',
-				       '".$_POST['county']."',
-				       '".$_POST['postcode']."',
-				       '".$_POST['mobile']."',
+				                               '".$_POST['locationTown']."',
+				                               '".$_POST['county']."',
+				                               '".$_POST['postcode']."',
+				                               '".$_POST['mobile']."',
                                        '".$_POST['home']."',
                                        '".$_POST['work']."',
                                        '".$_POST['other']."',
-				       '".$_POST['ffsno']."')";
+				                               '".$_POST['ffsno']."')";
 
 
                       $result = $theDB->doQuery($insert);
 
-                      if (!result) 
+                      if (!$result) 
                       {
                           print 'Error adding user to DB - '.$theDB->lasterror().' - <a href="user_add.php">try again?</a>';
                       }
@@ -182,7 +174,42 @@ else
 <input type="text" name="locationTown" maxlength="100">
 </td></tr>
 <tr><td>County*:</td><td>
-<input type="text" name="county" maxlength="100">
+
+<select name="county">
+<option value="Antrim">Antrim</option>
+<option value="Armagh">Armagh</option>
+<option value="Carlow">Carlow</option>
+<option value="Cavan">Cavan</option>
+<option value="Clare">Clare</option>
+<option value="Cork">Cork</option>
+<option value="Derry">Derry</option>
+<option value="Donegal">Donegal</option>
+<option value="Down">Down</option>
+<option value="Dublin">Dublin</option>
+<option value="Fermanagh">Fermanagh</option>
+<option value="Galway">Galway</option>
+<option value="Kerry">Kerry</option>
+<option value="Kildare">Kildare</option>
+<option value="Kilkenny">Kilkenny</option>
+<option value="Laois">Laois</option>
+<option value="Leitrim">Leitrim</option>
+<option value="Limerick">Limerick</option>
+<option value="Longford">Longford</option>
+<option value="Louth">Louth</option>
+<option value="Mayo">Mayo</option>
+<option value="Meath">Meath</option>
+<option value="Monaghan">Monaghan</option>
+<option value="Offaly">Offaly</option>
+<option value="Roscommon">Roscommon</option>
+<option value="Sligo">Sligo</option>
+<option value="Tipperary">Tipperary</option>
+<option value="Tyrone">Tyrone</option>
+<option value="Waterford">Waterford</option>
+<option value="Westmeath">Westmeath</option>
+<option value="Wexford">Wexford</option>
+<option value="Wicklow">Wicklow</option>
+</select>
+
 </td></tr>
 <tr><td>Postcode:</td><td>
 <input type="text" name="postcode" maxlength="100">

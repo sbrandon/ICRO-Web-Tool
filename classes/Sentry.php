@@ -8,6 +8,7 @@
 // Based on code by Peter Zeidman (http://www.intranetjournal.com/php-cms/)
 //
 // Dave Masterson, Sept 2009
+// Updated: Stephen Brandon, July 2024
 //-------------------------------------------------------------------------------------------------
 
 class Sentry 
@@ -15,13 +16,13 @@ class Sentry
     var $userdata;            //  Array to contain user's data
     
     // Starts session, kills password caching
-    function Sentry()
+    function __construct()
     {
         session_start();
         header("Cache-control: private"); 
 		
 		// Set a session variable to tell other pages if the site is connected to the net or not
-		require('/var/www/html/ICRO-Web-Tool/config/config.php');
+		require('../icro-config/config-live.php');
 		
 		if ($OFFLINE_SITE)
 		{

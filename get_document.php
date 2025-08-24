@@ -28,7 +28,7 @@ if(isset($_GET['doc_id']))
 
       header("Content-length: $size");
       header("Content-type: $type");
-      header("Content-Disposition: attachment; filename=$name");
+      header("Content-Disposition: attachment; filename=\"$name\"");
       echo $content;
 
       exit;

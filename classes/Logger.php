@@ -7,6 +7,7 @@
 // Depends on the DBLink class being initialised already....
 //
 // Dave Masterson, Sept 2009
+// Updated: Stephen Brandon, July 2024
 //-------------------------------------------------------------------------------------------------
 
 class Logger
@@ -18,7 +19,7 @@ class Logger
     // Creates a new Logger
     // Returns true or false, depending on sucess or failure
     //-----------------------------------------------------------------------------------------
-    function Logger($theDB)
+    function __construct($theDB)
     {
         // Initialise the error record
         $this->last_error = 'No Error';
@@ -34,7 +35,8 @@ class Logger
     {
         $data = addslashes($data);
 
-        $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1 ;
+        // for sms logging, where no user is logged in - default to davema
+        $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 4 ;
 
         $res = $this->db_object->doQuery("insert into system_log (time, user_id, message) values (NOW(), '$user_id', '$data');");
 

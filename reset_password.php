@@ -31,7 +31,7 @@
 
               $result = $theDB->doQuery($insert);
 
-              if (!result)
+              if (!$result)
               {
                    print 'Error adding user to DB - '.$theDB->lasterror().' - <a href="user_add.php">try again?</a>';
               }
@@ -41,14 +41,14 @@
 
                   $to = $res[0]['email'];
                   $subject = "[ICRO] Password Reset for Website";
-                  $from = "ICRO Mailer <no-reply@icro.ie>";
+                  $from = "no-reply@icro.ie";
                   $headers = "From: $from";
                   $url = "http://www.icro.ie/";
                   $message = "Hello ".$res[0]['first_name'].",\n\nYour password has been reset for $url\nYou can now log in with the following details:\n\nUsername: ".$res[0]['username']."\nPassword: ".$pw_random."\n\nOnce you log in, you can change your password from the main menu page. Please take a moment to ensure the rest of your profile details (especially mobile phone) are correct - these will be used in the event of a callout.\n\nHave a good day!,\n\nICRO Web Team";
 
-                  mail($to,$subject,$message,$headers);
+                  $mailResult = mail($to,$subject,$message,$headers,'-f' . $from);
                   
-                  $theLogger->log("Password reset for user ".$res[0]['username']." and email sent");
+                  $theLogger->log("Password reset for user ".$res[0]['username']." and email sent: ".$mailResult);
                   echo "Password changed for user - email sent to ".$res[0]['email']."<br/>";
               }
          }

@@ -9,7 +9,7 @@
 <?php
  if ($theSentry->login())
  {
-     $result = $theDB->fetchQuery("select * from rescues r,caves c where r.cave_id = c.cave_id and status = '0' order by date");
+     $result = $theDB->fetchQuery("select * from rescues r,caves c where r.cave_id = c.cave_id and status = '0' order by date desc");
 
      if(!$result)
      {

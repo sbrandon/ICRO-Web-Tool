@@ -15,17 +15,17 @@ class SMS
     //-----------------------------------------------------------------------------------------
     // Creates a new SMS object
     //-----------------------------------------------------------------------------------------
-    function SMS()
+    function __construct()
     {
         // Connection details for the Clickatell account
-        require('/var/www/html/ICRO-Web-Tool/config/config.php');
+        require('../icro-config/config-live.php');
   
         // Initialise the login details
         $this->userid   = $SMS_USERID;
         $this->password = $SMS_PASSWORD;
         $this->api_id   = $SMS_API_ID;
         $this->baseurl  = $SMS_BASEURL; 
-	$this->fromnum  = $SMS_FROMNUM;
+	    $this->fromnum  = $SMS_FROMNUM;
      
         // no errors yet
         $this->last_error = '';
@@ -38,20 +38,20 @@ class SMS
     function send($to_num,$message) 
     {
         // check the to number (should be ok in db, but anyway...)
-        if (!is_numeric($to_num) || !ereg ("^353|^44", $to_num) )
+        if (!is_numeric($to_num) || !preg_match ("/^353|^44/", $to_num) )
         {
             $this->last_error = 'Invalid recipient number - must begin with 353 or 44, all digits, no spaces';
             return false;
         }
 
         // Craft the https request string
-        $url=$this->baseurl."/http/sendmsg?user=".$this->userid."&password=".$this->password."&api_id=".$this->api_id."&from=".$this->fromnum."&to=".$to_num."&text=".urlencode($message);
+        $url=$this->baseurl."/http/sendmsg?user=".$this->userid."&password=".$this->password."&api_id=".$this->api_id."&from=".$this->fromnum."&to=".$to_num."&text=".urlencode($message)."&mo=1";
 
         // Make the http call
         $response = file($url);
 
         // Check to see if it worked
-        $send = split(":",$response[0]);
+        $send = preg_split("/:/",$response[0]);
 
         // Good respose is "ID:" followed by some alphanumeric messageid
         if ($send[0] == "ID")

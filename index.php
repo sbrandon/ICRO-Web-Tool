@@ -4,29 +4,11 @@
  require("template/header.php");
 
 
- // If its a non-logged in user, display public text
+ // If its a non-logged in user, redirect to login page
  if (!$theSentry->login())
  {
-     echo "<div class='newsbox'>";
-     echo "<div class='newstitle'>Login to the System</div>";
-     echo "<div class='newscontent'>";
-
-     echo '<br/>';
-     echo '<form action="login.php" method="post">';
-     echo '<table align="center" border="1" cellspacing="0" cellpadding="3">';
-     echo '<tr><td>Username:</td><td>';
-     echo '<input type="text" name="uname" maxlength="40">';
-     echo '</td></tr>';
-     echo '<tr><td>Password:</td><td>';
-     echo '<input type="password" name="passwd" maxlength="50">';
-     echo '</td></tr>';
-     echo '<tr><td colspan="2" align="right">';
-     echo '<input type="submit" name="submit" value="Login">';
-     echo '</td></tr>';
-     echo '</table>';
-     echo '</form>';
-     echo '<center>ICRO Member? Need an Account? Contact <a href="mailto:webmaster@icro.ie">ICRO</a> and we\'ll sort you out...</center><br/>';
-     echo '<center>If you are interested in donating to ICRO, you\'ll find <a href="donations.php">all the info here</a></center><br/>';
+     header('Location:login.php');
+     die();
  }
  // Otherwise display ICRO Menu
  else
@@ -35,11 +17,9 @@
      echo "<div class='newstitle'>Welcome!</div>";
      echo "<div class='newscontent'>";
 
-     echo "<br/>";
-     echo "<div class='motdbanner'>";
-     echo "<b>Message of the Day</b> - you can put a message for users here";
+     echo "<div class='alert alert-primary' role='alert'>";
+     echo "<b>Status: Business as usual</b> - contact Stephen (ADD PHONE NUMBER) if there are any issues or if you need help using the site during a practice";
      echo "</div>";
-     echo "<br/>";
 
      // Callout banner - displays if there are active rescues ongoing (according to the DB)
      $rescues = $theDB->fetchQuery('select c.name,c.county,r.rescue_id,r.type from rescues r, caves c where c.cave_id = r.cave_id and r.status = 1;');

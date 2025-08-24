@@ -68,7 +68,7 @@ if (isset($_POST['submit']))
 
                       $result = $theDB->doQuery($insert);
 
-                      if (!result) 
+                      if (!$result) 
                       {
                           print 'Error adding user to DB - '.$theDB->lasterror().' - <a href="user_add.php">try again?</a>';
                       }

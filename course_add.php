@@ -23,12 +23,9 @@
              }
              else
              {
-                 $_POST['name']        = strip_tags($_POST['name']);
+                 $_POST['name'] = strip_tags($_POST['name']);
 
-                 if (!get_magic_quotes_gpc())
-                 {
-                     $_POST['name']        = addslashes($_POST['name']);
-                 }
+                 $_POST['name'] = addslashes($_POST['name']);
 
 
                  $update = "insert into training_courses set name = '".$_POST['name']."',
