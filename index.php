@@ -18,7 +18,7 @@
      echo "<div class='newscontent'>";
 
      echo "<div class='alert alert-primary' role='alert'>";
-     echo "<b>Status: Business as usual</b> - contact Stephen (ADD PHONE NUMBER) if there are any issues or if you need help using the site during a practice";
+     echo "<b>Status: Business as usual</b> - contact Stephen (+353876275737) if there are any issues or if you need help using the site during a practice";
      echo "</div>";
 
      // Callout banner - displays if there are active rescues ongoing (according to the DB)

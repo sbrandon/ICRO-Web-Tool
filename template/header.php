@@ -8,6 +8,7 @@
  require_once("classes/Logger.php");
  require_once("classes/JSON.php");
  require_once('calendar/classes/tc_calendar.php');
+ require_once("classes/Mailer.php");
 
  // These objects are now available for use on every page.... 
  $theSentry = new Sentry();
@@ -16,6 +17,7 @@
  $theValidator = new Validator();
  $theSMS = new SMS();
  $json = new Services_JSON();
+ $mailer = new Mailer();
 
  echo '<!doctype html>';
  echo '<html lang="en">';

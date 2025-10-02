@@ -27,10 +27,8 @@ To make a donation via PayPal, simply use the button below to be taken to their 
 </form>
 <br/>
 
-<?
- 
- echo '</center>';
-
+<?php
+ echo "</center>";
  echo "<div id='clear_both' style='clear:both;'></div></div>";
  require("template/footer.html");
 ?>
