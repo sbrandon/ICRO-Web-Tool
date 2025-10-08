@@ -3,7 +3,7 @@
 ?>
 
 <div class='newsbox'>
-<div class='newstitle'>Mass SMS Tool</div>
+<div class='newstitle'>Test SMS Tool</div>
 <div class='newscontent'>
 
 <?php
