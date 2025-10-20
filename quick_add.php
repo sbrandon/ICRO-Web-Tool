@@ -13,7 +13,7 @@ if (isset($_POST['submit']))
 {
   if (!$_POST['fname'] | !$_POST['lname'] | !$_POST['mobile']) 
   {
-      echo('You did not fill in a required field. - <a href="user_add.php">try again?</a>');
+      echo('You did not fill in a required field. - <a href="quick_add.php">try again?</a>');
   }
   else
   {
@@ -24,7 +24,7 @@ if (isset($_POST['submit']))
 
       $name_check = $theDB->fetchQuery("SELECT username FROM users WHERE username = '".$username."'");
 
-      if (isset($name_check['username'])) 
+      if (!empty($name_check)) 
       {
           echo('Sorry, the username: <strong>'.$username.'</strong> is already taken, please <a href="quick_add.php">pick another one</a>.');
       }
@@ -42,29 +42,29 @@ if (isset($_POST['submit']))
           $regdate = date('Y-m-d H:i:s');
 
           $insert = "INSERT INTO users (
-                                       username,
-                                       first_name,
-				       last_name, 
-                                       password, 
-                                       email,
-                                       active,
-                                       county,
-                                       lat,
-                                       lng,
-                                       regdate, 
-                                       mobile_phone)
-                                       VALUES (
-                                       '".$username."', 
-                                       '".addslashes($_POST['fname'])."',
-				       '".addslashes($_POST['lname'])."', 
-                                       '".$password."', 
-				       '".addslashes($_POST['email'])."', 
-                                       1,
-                                       'Dublin',
-                                       53.1265,
-                                       -6.75655,
-                                       '$regdate', 
-				       '".$_POST['mobile']."')";
+            username,
+            first_name,
+				    last_name, 
+            password, 
+            email,
+            active,
+            county,
+            lat,
+            lng,
+            regdate, 
+            mobile_phone)
+            VALUES (
+              '".$username."', 
+              '".addslashes($_POST['fname'])."',
+				      '".addslashes($_POST['lname'])."', 
+              '".$password."', 
+				      '".addslashes($_POST['email'])."', 
+              1,
+              'Dublin',
+              53.1265,
+              -6.75655,
+              '$regdate', 
+				      '".$_POST['mobile']."')";
 
                       $result = $theDB->doQuery($insert);
 
@@ -76,7 +76,7 @@ if (isset($_POST['submit']))
                       {
                           $res = $theDB->fetchQuery("select user_id from users where username = '".$username."'");
 
-                          if ($theDB->doQuery("insert into user_status set user_id = ".$res[0]['user_id']))
+                          if ($theDB->doQuery("insert into user_status set user_id = ".$res[0]['user_id'].", eta = '0000-00-00 00:00:00'"))
                           {
                               if ($theDB->doQuery("insert into user_roles set user_id = ".$res[0]['user_id'].", role_id = 4"))
                               {

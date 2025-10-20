@@ -24,11 +24,8 @@
              $content = addslashes($content);
              fclose($fp);
 
-             if(!get_magic_quotes_gpc())
-             {
-                 $fileName = addslashes($fileName);
-                 $title    = addslashes($title);
-             }
+             $fileName = addslashes($fileName);
+             $title    = addslashes($title);
  
              $query = "INSERT INTO documents (title, name, size, type, content ) VALUES ('$title', '$fileName', '$fileSize', '$fileType', '$content')";
              $res = $theDB->doQuery($query);

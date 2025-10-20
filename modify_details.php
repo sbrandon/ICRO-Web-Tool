@@ -32,9 +32,10 @@
 
      if (isset($_POST['details']))
      {
-         $comments = mysql_real_escape_string($_POST['details']);
-         $mp_name  = mysql_real_escape_string($_POST['mp_name']);
-         $mp_loc   = mysql_real_escape_string($_POST['mp_loc']);
+
+         $comments = mysqli_real_escape_string($theDB->db_object, $_POST['details']);
+         $mp_name = mysqli_real_escape_string($theDB->db_object, $_POST['mp_name']);
+         $mp_loc = mysqli_real_escape_string($theDB->db_object, $_POST['mp_loc']);
 
          if ($theDB->doQuery("UPDATE rescues set comments = '$comments', meetpoint_name = '$mp_name', meetpoint_loc = '$mp_loc' where rescue_id = ".$_POST['id']))
          {

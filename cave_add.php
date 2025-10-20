@@ -29,24 +29,22 @@
                  $_POST['lat']         = strip_tags($_POST['lat']);
                  $_POST['lng']         = strip_tags($_POST['lng']);
 
-                 if (!get_magic_quotes_gpc())
-                 {
-                     $_POST['name']        = addslashes($_POST['name']);
-                     $_POST['county']      = addslashes($_POST['county']);
-                     $_POST['description'] = addslashes($_POST['description']);
-                 }
+                 
+                $_POST['name']        = addslashes($_POST['name']);
+                $_POST['county']      = addslashes($_POST['county']);
+                $_POST['description'] = addslashes($_POST['description']);
 
 
-                 $update = "insert into caves set name = '".$_POST['name']."',
-                                                county = '".$_POST['county']."',
-                                                   lat = '".$_POST['lat']."',
-                                                   lng = '".$_POST['lng']."',
-                                               enabled = '1',
-                                           description = '".$_POST['description']."'";
+                $update = "insert into caves set name = '".$_POST['name']."',
+                    county = '".$_POST['county']."',
+                    lat = '".$_POST['lat']."',
+                    lng = '".$_POST['lng']."',
+                    enabled = '1',
+                    description = '".$_POST['description']."'";
 
                  $result = $theDB->doQuery($update);
 
-                 if (!result)
+                 if (!$result)
                  {
                      print 'Error inserting cave - '.$theDB->lasterror().' - <a href="cave_mod.php">try again?</a>';
                  }

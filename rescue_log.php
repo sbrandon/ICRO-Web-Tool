@@ -24,7 +24,7 @@
                  // if the two match, then we have a new form submission - otherwise, ignore, its a dupe
                  if(strcasecmp($form_id, $_SESSION["FORM_ID"]) == 0) 
                  {
-                     if (! $theDB->doQuery("insert into rescue_log set rescue_id=".$_GET['id'].",time=NOW(),message='".mysql_escape_string($_GET['message'])."';"))
+                     if (! $theDB->doQuery("insert into rescue_log set rescue_id=".$_GET['id'].",time=NOW(),message='".mysqli_real_escape_string($theDB->db_object, $_GET['message'])."';"))
                  {
                      echo "ERROR - Couldn't record Log - ".$theDB->lastError()."<br/>";
                      }

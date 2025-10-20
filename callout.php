@@ -26,7 +26,9 @@
              die;
          }
          
-         $comments = mysql_real_escape_string($_POST['details']);
+         //$comments = $_POST['details'];
+
+         $comments = mysqli_real_escape_string($theDB->db_object, $_POST['details']);
 
          $insert_sql = "INSERT INTO rescues (cave_id,user_id,date,status,comments,type,meetpoint_name,meetpoint_loc) VALUES ("
                         . $_POST['cave_id'] . "," . $_SESSION['user_id'] . ",NOW(), 1,'$comments'," . $_POST['type'] . ",'" . $_POST['mp_name'] . "','" . $_POST['mp_loc'] . "');";
@@ -35,7 +37,7 @@
          {
            $ID = $theDB->fetchQuery("select rescue_id from rescues order by date DESC limit 1");
              
-           $theDB->doQuery("INSERT into rescue_log set rescue_id = ".$ID[0]['rescue_id'].",TIME=now(),MESSAGE='Callout started by ".$_SESSION['username']."';");
+           $theDB->doQuery("INSERT into rescue_log set rescue_id = ".$ID[0]['rescue_id'].", TIME=now(), MESSAGE='Callout started by ".$_SESSION['username']."';");
              
            // Alert all the wardens and the PRO
            $data = $theDB->fetchQuery("SELECT u.* FROM users u, user_roles r WHERE u.user_id = r.user_id AND r.role_id in (2,8,9)");
