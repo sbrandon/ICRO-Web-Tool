@@ -29,8 +29,18 @@
                    $username = $res[0]['username'];
               }
 
-              // delete the entry associated with that name....
-              $res = $theDB->doQuery("delete u,ur,us from users u, user_roles ur, user_status us where ur.user_id = u.user_id and us.user_id = u.user_id and u.user_id = ".$_POST['user_id'].";");
+              $id = (int)$_POST['user_id'];  // cast for safety
+
+              $sql = "
+                DELETE u, ur, us
+                FROM users u
+                LEFT JOIN user_roles  ur ON ur.user_id = u.user_id
+                LEFT JOIN user_status us ON us.user_id = u.user_id
+                WHERE u.user_id = {$id}
+              ";
+                
+              $res = $theDB->doQuery($sql);
+
        
               if (!$res)
               {
@@ -68,7 +78,7 @@
                  echo "</select>";
              }
 
-             echo "<INPUT TYPE='submit' onClick='javascript:return confirm('Are you sure you want to delete this user?')' id='deleteCaver' value='Delete Caver'/>";
+             echo '<input type="submit" onclick="return confirm(\'Are you sure you want to delete this user?\')" id="deleteCaver" value="Delete Caver">';
              echo "</form>";
          }
      }
